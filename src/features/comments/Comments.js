@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {removeComment} from "../../actions/commentsActions";
-import {connect} from "react-redux";
+import {selectComments} from "../../selectors/commentsSelectors";
+import {useSelector, useDispatch} from "react-redux";
 
 function DateLoc(props)
 {
@@ -9,18 +10,14 @@ function DateLoc(props)
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 }
 
-const mapDispatchToProps = dispatch => ({
+function Comment(props) {
 
-    removeComment: commentId => { dispatch(removeComment(commentId)) }
-
-});
-
-const Comment = connect(null, mapDispatchToProps)((props) => {
-
+    const dispatch = useDispatch();
     const comment = props.comment;
 
     const handleRemove = () => {
-        props.removeComment(comment.id);
+
+        dispatch(removeComment(comment.id))
     };
 
     return (
@@ -33,11 +30,11 @@ const Comment = connect(null, mapDispatchToProps)((props) => {
             </div>
         </div>
     );
-});
+};
 
-function Comments(props) {
+export default function Comments() {
 
-    const comments = props.comments;
+    const comments = useSelector(selectComments);
 
     let listComments;
 
@@ -50,13 +47,4 @@ function Comments(props) {
 
         <div>{listComments}</div>
     );
-}
-
-const mapStateToProps = (state) => ({
-
-    comments: state.comments.comments
-
-});
-
-
-export default connect(mapStateToProps)(Comments);
+};

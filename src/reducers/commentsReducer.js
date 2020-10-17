@@ -20,7 +20,7 @@ export const commentsReducer = createReducer(initialState, (builder) => {
 
         .addCase(removeComment, (state, action) => {
 
-            const commentIndex = state.comments.find(comment => comment.id === action.payload);
+            const commentIndex = state.comments.findIndex(comment => { comment.id === action.payload } );
 
             state.comments.splice(commentIndex, 1);
 

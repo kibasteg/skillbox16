@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 
-import {connect} from "react-redux";
+import {useDispatch} from "react-redux";
 import {setComment} from "../../actions/commentsActions";
 
-function Form(props) {
+function Form() {
 
+    const dispatch = useDispatch();
     const [author, setAuthor] = useState('');
     const [text, setText] = useState('');
 
@@ -15,7 +16,7 @@ function Form(props) {
     const handleSend = ev => {
 
         ev.preventDefault();
-        props.setComment({author: author.trim(), text:text.trim()});
+        dispatch(setComment({author: author.trim(), text:text.trim()}));
         resetForm();
     };
 
@@ -46,10 +47,4 @@ function Form(props) {
     );
 }
 
-const mapDispatchToProps = dispatch => ({
-
-   setComment: comment => dispatch(setComment(comment))
-
-});
-
-export default connect(null, mapDispatchToProps)(Form);
+export default Form;
