@@ -1,8 +1,15 @@
 import {configureStore} from '@reduxjs/toolkit';
-import commentsReducer from '../features/comments/commentsSlice';
+import {commentsReducer} from "../reducers/commentsReducer"
+import {updateStorage} from '../localStorage'
 
-export default configureStore({
+const store = configureStore({
     reducer: {
         comments: commentsReducer
     }
 });
+
+store.subscribe(() => {
+    updateStorage(store.getState())
+});
+
+export default store;

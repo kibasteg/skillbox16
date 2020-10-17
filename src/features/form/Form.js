@@ -1,43 +1,28 @@
 import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
 
-import {
-    setComment
-} from "../comments/commentsSlice";
+import {connect} from "react-redux";
+import {setComment} from "../../actions/commentsActions";
 
-function Form() {
+function Form(props) {
 
     const [author, setAuthor] = useState('');
     const [text, setText] = useState('');
-    const dispatch = useDispatch();
 
-    const handleChangeAuthor = (ev) => {
+    const handleChangeAuthor = (ev) => { setAuthor(ev.target.value) };
 
-        setAuthor(ev.target.value);
-    };
-
-    const handleChangeText = (ev) => {
-
-        setText(ev.target.value);
-    };
+    const handleChangeText = (ev) => { setText(ev.target.value) };
 
     const handleSend = ev => {
 
         ev.preventDefault();
-
-        dispatch(setComment({author: author.trim(), text:text.trim()}));
-
+        props.setComment({author: author.trim(), text:text.trim()});
         resetForm();
-
-
-
     };
 
     const resetForm = () => {
 
         setAuthor('');
         setText('');
-
     };
 
     return (
@@ -58,8 +43,13 @@ function Form() {
                 <button className="form__btn" type="submit" disabled={!(text.trim().length && author.trim().length)}>Send</button>
             </div>
         </form>
-    )
-
+    );
 }
 
-export default Form;
+const mapDispatchToProps = dispatch => ({
+
+   setComment: comment => dispatch(setComment(comment))
+
+});
+
+export default connect(null, mapDispatchToProps)(Form);
