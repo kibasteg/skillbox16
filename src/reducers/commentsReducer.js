@@ -1,38 +1,28 @@
 import {initialStorage} from "../localStorage";
+import {createReducer} from "@reduxjs/toolkit";
+import {setComment, removeComment} from "../actions/commentsActions";
 
 const initialState = initialStorage.comments || {comments: []};
 
-export function commentsReducer(state = initialState, action) {
+export const commentsReducer = createReducer(initialState, (builder) => {
 
-    switch (action.type) {
+    builder
 
-        case 'comments/setComment': {
+        .addCase(setComment, (state, action) => {
 
             const comment = action.payload;
 
             comment.id = `comment_${Math.ceil(Math.random() * 10000000).toString()}`;
             comment.date = (new Date()).toISOString();
 
-            const comments = [...state.comments, comment];
+            state.comments.push(comment);
+        })
 
-            return {...state, comments};
-        }
-
-        case 'comments/removeComment': {
+        .addCase(removeComment, (state, action) => {
 
             const commentIndex = state.comments.find(comment => comment.id === action.payload);
 
-            const comments = [...state.comments];
+            state.comments.splice(commentIndex, 1);
 
-            comments.splice(commentIndex, 1);
-
-            return {...state, comments};
-        }
-
-        default: {
-
-            return state;
-
-        }
-    }
-}
+        })
+});

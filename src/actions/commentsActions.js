@@ -1,9 +1,4 @@
-export const setComment = comment => ({
-    type: 'comments/setComment',
-    payload: comment
-});
+import {createAction} from "@reduxjs/toolkit";
 
-export const removeComment = commentId => ({
-    type: 'comments/removeComment',
-    payload: commentId
-});
+export const setComment = createAction('comments/setComment');
+export const removeComment = createAction('comments/removeComment');

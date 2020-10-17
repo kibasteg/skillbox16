@@ -26,7 +26,7 @@ const Comment = connect(null, mapDispatchToProps)((props) => {
     return (
         <div className="comment">
             <div className="comment__author">{comment.author}</div>
-            <div class="comment__text">{comment.text}</div>
+            <div className="comment__text">{comment.text}</div>
             <div className="comment__captions">
                 <span className="comment__date"><DateLoc date={comment.date} /></span>
                 <span className="comment__btn comment__btn--del" onClick={handleRemove}>remove</span>
